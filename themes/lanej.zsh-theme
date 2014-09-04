@@ -8,7 +8,6 @@ ZSH_THEME_SVN_PROMPT_SUFFIX=$ZSH_THEME_GIT_PROMPT_SUFFIX
 ZSH_THEME_SVN_PROMPT_DIRTY=$ZSH_THEME_GIT_PROMPT_DIRTY
 ZSH_THEME_SVN_PROMPT_CLEAN=$ZSH_THEME_GIT_PROMPT_CLEAN
 
-
 prompt_context() {
   local user=`whoami`
 
@@ -18,7 +17,14 @@ prompt_context() {
 }
 
 ruby_version() {
-  ruby -v | awk '{print $2}'
+  local ruby_executable=`which ruby`
+  local version=`ruby -v | awk '{print $2}'`
+
+  if [[ $ruby_executable == '/usr/bin/ruby' ]]; then
+    echo "system $version"
+  else
+    echo $version
+  fi
 }
 
 vcs_status() {
