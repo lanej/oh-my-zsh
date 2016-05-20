@@ -12,7 +12,7 @@ prompt_context() {
 	local user=`whoami`
 
 	if [[ "$user" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
-		"$user@%m"
+		echo "$user@%m"
 	fi
 }
 
