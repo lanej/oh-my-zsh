@@ -19,11 +19,14 @@ prompt_context() {
 ruby_version() {
 	local ruby_executable=`which ruby`
 	local version=`ruby -v | awk '{print $2}'`
+	local ruby_version=$version
 
 	if [[ $ruby_executable == '/usr/bin/ruby' ]]; then
-		echo "system $version"
-	else
-		echo $version
+		ruby_version="system $version"
+	fi
+
+	if [[ -f ".ruby-version" || -f "*.gemspec" ]]; then
+		echo "‹ruby-$ruby_version›"
 	fi
 }
 
@@ -35,6 +38,6 @@ vcs_status() {
 	fi
 }
 
-PROMPT='$(prompt_context) %2~ $(vcs_status) %{$fg[red]%}‹ruby-$(ruby_version)›%{$reset_color%}
+PROMPT='$(prompt_context) %2~ $(vcs_status) %{$fg[red]%}$(ruby_version)%{$reset_color%}
 %{$fg[cyan]%}[%?]%{$reset_color%} »%b '
 RPROMPT=''
